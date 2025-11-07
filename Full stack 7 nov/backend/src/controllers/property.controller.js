@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Property = require('../models/property.model');
 const PropertyPhoto = require('../models/propertyPhoto.model');
+const Amenity = require('../models/amenity.model'); 
 const PropertyAmenity = require('../models/propertyAmenity.model'); 
 const fs = require('fs');
 const path = require('path');
@@ -84,6 +85,35 @@ exports.createProperty = async (req, res) => {
     property.property_photos = savedPhotos;
     await property.save();
 
+///
+// // 1️⃣ Parse property_amenities (accept array or comma-separated string)
+//     let amenity_arr = body.property_amenities;
+
+//     if (typeof amenity_arr === 'string') {
+//     try {
+//       amenity_arr = JSON.parse(amenity_arr);
+//     } catch (err) {
+//       amenity_arr = amenity_arr.split(',').map(name => name.trim());
+//     }
+//   }
+//     if (!Array.isArray(amenity_arr)) amenity_arr = [];
+
+// const amenityIds = [];
+
+// for (let name of amenity_arr) {
+//   // Check if amenity already exists
+//   let amenity = await PropertyAmenity.findOne({ name: name });
+//   if (!amenity) {
+//     // Create new amenity
+//     amenity = await PropertyAmenity.create({ name });
+//   }
+
+//   // Collect the ObjectId
+//   amenityIds.push(amenity._id);
+// }
+////
+    
+
     res.status(201).json({ success: true, property });
   } catch (err) {
     console.error(err);
@@ -101,17 +131,110 @@ exports.getProperty = async (req, res, next) => {
   }
 };
 
-exports.updateProperty = async (req, res, next) => {
+exports.updateProperty = async (req, res) => {
   try {
-    // Partial update - only fields provided
-    const updates = { ...req.body };
-    const property = await Property.findByIdAndUpdate(req.params.id, updates, { new: true });
-    if (!property) return res.status(404).json({ success: false, message: 'Not found' });
-    res.json({ success: true, data: property });
+
+    // console.log(1);
+    // process.exit();
+    const propertyId = req.params.id;
+    const { body, files } = req;
+
+    // Validate propertyId
+    if (!mongoose.Types.ObjectId.isValid(propertyId)) {
+      return res.status(400).json({ success: false, message: 'Invalid property ID' });
+    }
+
+    const property = await Property.findById(propertyId);
+    if (!property) {
+      return res.status(404).json({ success: false, message: 'Property not found' });
+    }
+
+    // Parse and convert amenities
+    let property_amenities = [];
+    if (body.property_amenities) {
+      const amenityKeys = Object.keys(body).filter(k => k.startsWith('property_amenities'));
+      if (amenityKeys.length > 0) {
+        property_amenities = amenityKeys.map(k => body[k]);
+      } else {
+        let raw = body.property_amenities;
+        try {
+          property_amenities = JSON.parse(raw);
+        } catch (err) {
+          property_amenities = raw.split(',').map(id => id.trim());
+        }
+      }
+
+      // Convert to ObjectIds (ignore invalid)
+      property_amenities = property_amenities
+        .filter(id => mongoose.Types.ObjectId.isValid(id))
+        .map(id => new mongoose.Types.ObjectId(id));
+    }
+
+    // Prepare update object
+    const updates = {};
+
+    // Simple text fields
+    const simpleFields = [
+      'property_name',
+      'property_owner_email',
+      'property_detail',
+      'property_type',
+      'property_size',
+      'property_owner',
+      'property_address',
+      'status'
+    ];
+
+    simpleFields.forEach(field => {
+      if (body[field] !== undefined) updates[field] = body[field];
+    });
+
+    // Only assign size if type is Residential
+    if (updates.property_type && updates.property_type !== 'Residential') {
+      updates.property_size = undefined;
+    }
+
+    // Update brochure (single file)
+    if (files?.property_brochure?.[0]) {
+      updates.property_brochure_url = `/uploads/${path.basename(files.property_brochure[0].path)}`;
+    }
+
+    // Handle new photos (append)
+    if (files?.property_photos?.length) {
+      const savedPhotos = [];
+      for (const p of files.property_photos) {
+        const photo = await PropertyPhoto.create({
+          property_id: propertyId,
+          image_url: `/uploads/${path.basename(p.path)}`
+        });
+        savedPhotos.push(photo._id);
+      }
+      updates.property_photos = [...property.property_photos, ...savedPhotos];
+    }
+
+    // Handle property_amenities if provided
+    if (property_amenities.length > 0) {
+      updates.property_amenities = property_amenities;
+    }
+
+    // Perform update with validation
+    const updatedProperty = await Property.findByIdAndUpdate(propertyId, updates, {
+      new: true,
+      runValidators: true
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'Property updated successfully',
+      property: updatedProperty
+    });
   } catch (err) {
-    next(err);
+    console.error('Update property error:', err);
+    res.status(500).json({ success: false, message: err.message });
   }
 };
+
+
 
 exports.replaceProperty = async (req, res, next) => {
   try {
