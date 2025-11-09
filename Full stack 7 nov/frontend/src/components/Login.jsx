@@ -14,7 +14,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
-import EmployeeList from './EmployeeList';
+import EmployeeList from './Employee/EmployeeList';
 
 const loginSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),

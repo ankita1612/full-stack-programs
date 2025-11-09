@@ -13,34 +13,42 @@ const { errorHandler, notFound } = require('./middleware/error.middleware');
 
 const app = express();
 
-// Middlewares
+/* 🧩 --- Security & Utility Middlewares --- */
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: '*', // ✅ change to ['http://localhost:5173', 'https://yourdomain.com'] in production
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use(xss());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
-// Rate limit (basic)
+/* 🧩 --- Rate Limiter --- */
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
+  windowMs: 15 * 60 * 1000, // 15 min
   max: 200
 });
 app.use(limiter);
 
-// Static uploads (if using local storage)
-app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+/* 🧩 --- Static File Handling --- */
+// Serve all uploads with proper CORS headers
+app.use('/uploads', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Cross-Origin-Resource-Policy', 'cross-origin');
+  next();
+}, express.static(path.join(__dirname, '..', 'uploads')));
 
-// Routes
+/* 🧩 --- Routes --- */
 app.use('/auth', authRoutes);
 app.use('/employee', empRoutes);
 app.use('/property', propertyRoutes);
 
-
-// Health
+/* 🧩 --- Health Check --- */
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
-// 404 + error
+/* 🧩 --- Error Handlers --- */
 app.use(notFound);
 app.use(errorHandler);
 

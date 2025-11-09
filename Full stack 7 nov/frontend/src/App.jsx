@@ -6,7 +6,7 @@ import { UserProvider } from "./context/UserContext";    //context API
 const Login = lazy(() => import("./components/Login"));
 const Register = lazy(() => import("./components/Register"));
 const PropertyList = lazy(() => import("./components/PropertyList"));
-const EmployeeList = lazy(() => import("./components/EmployeeList"));
+const EmployeeList = lazy(() => import("./components/Employee/EmployeeList"));
 const Home = lazy(() => import("./components/Home"));
 
 
