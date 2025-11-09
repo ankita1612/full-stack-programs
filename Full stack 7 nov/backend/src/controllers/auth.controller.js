@@ -13,7 +13,7 @@ exports.register = async (req, res, next) => {
     const { name, email, password } = req.body;
 
     const exists = await User.findOne({ email });
-    if (exists) return res.status(400).json({ success: false, message: 'Email already in use' });
+    if (exists) return res.status(200).json({ success: false, message: 'Email already in use' });
 
     const hashed = await bcrypt.hash(password, SALT_ROUNDS);
     const user = await User.create({ name, email, password: hashed });
@@ -38,10 +38,10 @@ exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email, deleted_at: null });
-    if (!user) return res.status(401).json({ success: false, message: 'Invalid credentials' });
+    if (!user) return res.status(200).json({ success: false, message: 'Invalid credentials' });
 
     const match = await bcrypt.compare(password, user.password);
-    if (!match) return res.status(401).json({ success: false, message: 'Invalid credentials' });
+    if (!match) return res.status(200).json({ success: false, message: 'Invalid credentials' });
 
     const token = jwt.sign({ sub: user._id, email: user.email }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 

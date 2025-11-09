@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const path = require('path');
 
 const authRoutes = require('./routes/auth.routes');
+const empRoutes = require('./routes/emp.routes');
 const propertyRoutes = require('./routes/property.routes');
 const { errorHandler, notFound } = require('./middleware/error.middleware');
 
@@ -32,6 +33,7 @@ app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 // Routes
 app.use('/auth', authRoutes);
+app.use('/employee', empRoutes);
 app.use('/property', propertyRoutes);
 
 

@@ -7,11 +7,11 @@ const propertyAmenitySchema = new mongoose.Schema({
       required: true,
     },
   amenity_id: {  
-    type: mongoose.Schema.Types.ObjectId,
+    type: Number,
     ref: 'Amenity',
     required: true, 
   },
   created_at: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('PropertyAmenity', propertyAmenitySchema);
+module.exports = mongoose.model('Property_amenity', propertyAmenitySchema);

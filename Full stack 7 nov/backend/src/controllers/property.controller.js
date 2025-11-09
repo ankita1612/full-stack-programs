@@ -85,32 +85,32 @@ exports.createProperty = async (req, res) => {
     property.property_photos = savedPhotos;
     await property.save();
 
-///
-// // 1️⃣ Parse property_amenities (accept array or comma-separated string)
-//     let amenity_arr = body.property_amenities;
+  let amenity_arr = body.property_amenities;
 
-//     if (typeof amenity_arr === 'string') {
-//     try {
-//       amenity_arr = JSON.parse(amenity_arr);
-//     } catch (err) {
-//       amenity_arr = amenity_arr.split(',').map(name => name.trim());
-//     }
-//   }
-//     if (!Array.isArray(amenity_arr)) amenity_arr = [];
+  if (typeof amenity_arr === 'string') {
+    try {
+      amenity_arr = JSON.parse(amenity_arr);
+    } catch (err) {
+      amenity_arr = amenity_arr.split(',').map(id => id.trim());
+    }
+  }
 
-// const amenityIds = [];
+  if (!Array.isArray(amenity_arr)) amenity_arr = [];
 
-// for (let name of amenity_arr) {
-//   // Check if amenity already exists
-//   let amenity = await PropertyAmenity.findOne({ name: name });
-//   if (!amenity) {
-//     // Create new amenity
-//     amenity = await PropertyAmenity.create({ name });
-//   }
+  // 2️⃣ Convert IDs to ObjectId and prepare documents
+  const amenityDocs = amenity_arr.map(ame_id => ({
+    property_id: property._id,
+    amenity_id: Number(ame_id)
+  }));
 
-//   // Collect the ObjectId
-//   amenityIds.push(amenity._id);
-// }
+  // 3️⃣ Insert all at once
+  if (amenityDocs.length > 0) {
+    await PropertyAmenity.insertMany(amenityDocs);
+  }
+
+ 
+ 
+ 
 ////
     
 
@@ -216,12 +216,36 @@ exports.updateProperty = async (req, res) => {
     if (property_amenities.length > 0) {
       updates.property_amenities = property_amenities;
     }
+  await PropertyAmenity.deleteMany({ property_id: propertyId });
 
     // Perform update with validation
     const updatedProperty = await Property.findByIdAndUpdate(propertyId, updates, {
       new: true,
       runValidators: true
     });
+
+    let amenity_arr = body.property_amenities;
+    if (typeof amenity_arr === 'string') {
+      try {
+        amenity_arr = JSON.parse(amenity_arr);
+      } catch (err) {
+        amenity_arr = amenity_arr.split(',').map(id => id.trim());
+      }
+    }
+
+    if (!Array.isArray(amenity_arr)) amenity_arr = [];
+
+    // 2️⃣ Convert IDs to ObjectId and prepare documents
+    const amenityDocs = amenity_arr.map(ame_id => ({
+      property_id: property._id,
+      amenity_id: Number(ame_id)
+    }));
+
+    // 3️⃣ Insert all at once
+    if (amenityDocs.length > 0) {
+      await PropertyAmenity.insertMany(amenityDocs);
+    }
+
 
     res.status(200).json({
       success: true,
