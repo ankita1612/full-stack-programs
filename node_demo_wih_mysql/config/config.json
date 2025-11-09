@@ -1,0 +1,29 @@
+{
+    "development": {
+        "username": "root",
+        "password": "",
+        "database": "node_demo",
+        "host": "127.0.0.1",
+        "dialect": "mysql",
+        "migrationStoragePath": "./database/migrations",
+        "seederStoragePath": "./database/seeders"
+    },
+    "test": {
+        "username": "root",
+        "password": "",
+        "database": "node_demo",
+        "host": "127.0.0.1",
+        "dialect": "mysql",
+        "migrationStoragePath": "../databases/migrations",
+        "seederStoragePath": "../database/seeders"
+    },
+    "production": {
+        "username": "root",
+        "password": "",
+        "database": "node_demo",
+        "host": "127.0.0.1",
+        "dialect": "mysql",
+        "migrationStoragePath": "../database/migrations",
+        "seederStoragePath": "../database/seeders"
+    }
+}

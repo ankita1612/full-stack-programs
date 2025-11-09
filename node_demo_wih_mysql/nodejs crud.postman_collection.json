@@ -1,0 +1,960 @@
+{
+	"info": {
+		"_postman_id": "7b3fae61-d546-4deb-951b-65b9baf8e9d0",
+		"name": "nodejs crud",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26861584"
+	},
+	"item": [
+		{
+			"name": "employee",
+			"item": [
+				{
+					"name": "employee - list data",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/employee",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "employee -fetch id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJtYXJnaW5pQHlvcG1haWwuY29tIiwiaWF0IjoxNzQzMTQ0ODI2LCJleHAiOjE3NDMxNDg0MjZ9.-fnsrcch5KNxD7l0fC4jaEqsx0WziQy9EziDSlZfPfI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/employee/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"employee",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJtYXJnaW5pQHlvcG1haWwuY29tIiwiaWF0IjoxNzQzNDAyMTY5LCJleHAiOjE3NDM0MjAxNjl9._eb9waQy4NXKtPcea4X2SpuesF-DRce-bh_oNL-m1FY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/employee/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"employee",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "save with raw",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"aaaa\",\r\n    \"last_name\": \"w34\",\r\n    \"email\": \"sankita.modi@trreta.com\",\r\n    \"phone\": \"3333333333\",\r\n    \"organization\": \"aspl\",\r\n    \"designation\": \"se\",\r\n    \"salary\": 1111,\r\n    \"status\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/employee",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "save with x-www-urlencoded",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJtYXJnaW5pQHlvcG1haWwuY29tIiwiaWF0IjoxNzQzMTQ0ODI2LCJleHAiOjE3NDMxNDg0MjZ9.-fnsrcch5KNxD7l0fC4jaEqsx0WziQy9EziDSlZfPfI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "first_name",
+									"value": "1123",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "2445",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "test@yopmail.com",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": " 3333333333",
+									"type": "text"
+								},
+								{
+									"key": "DOB",
+									"value": "2024-10-10",
+									"type": "text"
+								},
+								{
+									"key": "designation",
+									"value": "Developer",
+									"type": "text"
+								},
+								{
+									"key": "salary",
+									"value": "1111111111111",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "profile_image",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/employee",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJtYXJnaW5pQHlvcG1haWwuY29tIiwiaWF0IjoxNzQzMDUzODIxLCJleHAiOjE3NDMwNTc0MjF9.L7InEeoFs0L9cMEGSVp8qzm9oqIv9-K4F25rItQMSZ0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "12",
+									"type": "text"
+								},
+								{
+									"key": "first_name",
+									"value": "1123",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "2445",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "test@yopmail.com",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": " 3333333333",
+									"type": "text"
+								},
+								{
+									"key": "organization",
+									"value": "aspl",
+									"type": "text"
+								},
+								{
+									"key": "designation",
+									"value": "Developer",
+									"type": "text"
+								},
+								{
+									"key": "salary",
+									"value": "1111111111111",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/employee/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"employee",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "department",
+			"item": [
+				{
+					"name": "list data with pagination",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "page",
+									"value": "2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "5",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/department",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"department"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "fetch by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJtYXJnaW5pQHlvcG1haWwuY29tIiwiaWF0IjoxNzQzMTQ0ODI2LCJleHAiOjE3NDMxNDg0MjZ9.-fnsrcch5KNxD7l0fC4jaEqsx0WziQy9EziDSlZfPfI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/department/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"department",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJtYXJnaW5pQHlvcG1haWwuY29tIiwiaWF0IjoxNzQzNDAyMTY5LCJleHAiOjE3NDM0MjAxNjl9._eb9waQy4NXKtPcea4X2SpuesF-DRce-bh_oNL-m1FY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/department/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"department",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "save with x-www-urlencoded",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJtYXJnaW5pQHlvcG1haWwuY29tIiwiaWF0IjoxNzQzMTQ0ODI2LCJleHAiOjE3NDMxNDg0MjZ9.-fnsrcch5KNxD7l0fC4jaEqsx0WziQy9EziDSlZfPfI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "System analysis",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "this is test desc",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "start_date",
+									"value": "2025-10-01",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/department",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"department"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJtYXJnaW5pQHlvcG1haWwuY29tIiwiaWF0IjoxNzQzMDUzODIxLCJleHAiOjE3NDMwNTc0MjF9.L7InEeoFs0L9cMEGSVp8qzm9oqIv9-K4F25rItQMSZ0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "System analysis",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "this is test desc",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "start_date",
+									"value": "2025-10-01",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/department/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"department",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "list data",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "fetch id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJtYXJnaW5pQHlvcG1haWwuY29tIiwiaWF0IjoxNzQzNDAyMTY5LCJleHAiOjE3NDM0MjAxNjl9._eb9waQy4NXKtPcea4X2SpuesF-DRce-bh_oNL-m1FY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/user/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJtYXJnaW5pQHlvcG1haWwuY29tIiwiaWF0IjoxNzQzNDAyMTY5LCJleHAiOjE3NDM0MjAxNjl9._eb9waQy4NXKtPcea4X2SpuesF-DRce-bh_oNL-m1FY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/user/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "save with x-www-urlencoded",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJtYXJnaW5pQHlvcG1haWwuY29tIiwiaWF0IjoxNzQzNDAyMTY5LCJleHAiOjE3NDM0MjAxNjl9._eb9waQy4NXKtPcea4X2SpuesF-DRce-bh_oNL-m1FY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "ankita",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "ankita.modi+5@trreta.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Aspl@123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJtYXJnaW5pQHlvcG1haWwuY29tIiwiaWF0IjoxNzQzNDAyMTY5LCJleHAiOjE3NDM0MjAxNjl9._eb9waQy4NXKtPcea4X2SpuesF-DRce-bh_oNL-m1FY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "1123",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "jane.smith+6@yopmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/user/10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "singup",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "margini",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "margini@yopmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Aspl@123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/auth/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "margini@yopmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Aspl@123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "extra",
+			"item": [
+				{
+					"name": "email send",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJtYXJnaW5pQHlvcG1haWwuY29tIiwiaWF0IjoxNzQyOTkzNTYzLCJleHAiOjE3NDI5OTcxNjN9.gJJEWuseZhkvdizI0SS-YiaDTmpJIs-6PHaa4JGTGdg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/mailsend_demo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"mailsend_demo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "excel export",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJtYXJnaW5pQHlvcG1haWwuY29tIiwiaWF0IjoxNzQyOTkzNTYzLCJleHAiOjE3NDI5OTcxNjN9.gJJEWuseZhkvdizI0SS-YiaDTmpJIs-6PHaa4JGTGdg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/xls_export",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"xls_export"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "file_upload",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJtYXJnaW5pQHlvcG1haWwuY29tIiwiaWF0IjoxNzQyOTkzNTYzLCJleHAiOjE3NDI5OTcxNjN9.gJJEWuseZhkvdizI0SS-YiaDTmpJIs-6PHaa4JGTGdg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/lenovo/Pictures/drive-more-download.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/file_upload",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"file_upload"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
