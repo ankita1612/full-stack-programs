@@ -1,23 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext  } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { UserContext } from "../context/UserContext";
 
 export default function Header() {
-  const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
+
 
   // 🔹 Load user info from localStorage (set after login)
-  useEffect(() => {
-    const storedUser = localStorage.getItem('userData');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedUser = localStorage.getItem('userData');
+  //   if (storedUser) {
+  //     setUser(JSON.parse(storedUser));
+  //   }
+  // }, []);
 
   // 🔹 Logout function
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('userData');
-    setUser(null);
+   // setUser(null);
     navigate('/login');
   };
 
