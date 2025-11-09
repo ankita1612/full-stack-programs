@@ -259,13 +259,13 @@ export default function EmployeeList() {
       <table border="1" width="100%" cellPadding="5">
         <thead>
           <tr>
-            <th onClick={() => handleSort("name")}>Name {sortField === "name" ? (sortOrder === "asc" ? "↑" : "↓") : "⬍"}</th>
-            <th onClick={() => handleSort("email")}>Email {sortField === "email" ? (sortOrder === "asc" ? "↑" : "↓") : "⬍"}</th>
-            <th onClick={() => handleSort("salary")}>Salary {sortField === "salary" ? (sortOrder === "asc" ? "↑" : "↓") : "⬍"}</th>
-            <th>DOB</th>
-            <th>Status</th>
-            <th>Salary Slip</th>
-            <th>Actions</th>
+            <th style={{ width: "10%" }} onClick={() => handleSort("name")}>Name {sortField === "name" ? (sortOrder === "asc" ? "↑" : "↓") : "⬍"}</th>
+            <th style={{ width: "10%" }} onClick={() => handleSort("email")}>Email {sortField === "email" ? (sortOrder === "asc" ? "↑" : "↓") : "⬍"}</th>
+            <th style={{ width: "10%" }} onClick={() => handleSort("salary")}>Salary {sortField === "salary" ? (sortOrder === "asc" ? "↑" : "↓") : "⬍"}</th>
+            <th style={{ width: "15%" }}>DOB</th>
+            <th style={{ width: "15%" }}>Status</th>
+            <th style={{ width: "15%" }}>Salary Slip</th>
+            <th style={{ width: "15%" }}>Actions</th>
           </tr>
         </thead>
 

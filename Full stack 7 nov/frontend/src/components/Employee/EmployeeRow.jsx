@@ -23,8 +23,10 @@ const employeeSchema = (backend_url, emp, token) => yup.object().shape({
   salary: yup.number().typeError("Salary must be a number").positive("Salary must be > 0").max(1000000, "Salary must be < 1,000,000").required(),
   dob: yup.date().max(new Date(), "DOB must be before today").required(),
   status: yup.string().oneOf(["Active","Inactive"]).required(),
-  salary_slip: yup.mixed().test("fileType","Only PDF allowed", file => !file?.length || file[0].type === "application/pdf"),
-  profile_image: yup.mixed().test("fileType","Only JPG/JPEG allowed", file => !file?.length || ["image/jpeg","image/jpg"].includes(file[0].type)),
+  salary_slip: yup.mixed().notRequired().test("fileType", "Only PDF allowed",
+    (file) => !file || file.length === 0 || file[0].type === "application/pdf"),
+  profile_image: yup.mixed().notRequired().test("fileType", "Only JPG/JPEG allowed", 
+    file => !file?.length || ["image/jpeg", "image/jpg"].includes(file[0].type))
 });
 
 
@@ -44,10 +46,12 @@ function EmployeeRow({ emp, onDelete, onSave, token }) {
     try {
       const data = new FormData();
       Object.keys(formData).forEach((key) => {
-        if (key !== "salary_slip") data.append(key, formData[key]);
+        if (key !== "salary_slip" && key !== "profile_image") data.append(key, formData[key]);
       });
-      if (formData.salary_slip?.[0])
-        data.append("salary_slip", formData.salary_slip[0]);
+
+      // Add files if present
+      if (formData.salary_slip?.[0]) data.append("salary_slip", formData.salary_slip[0]);
+      if (formData.profile_image?.[0]) data.append("profile_image", formData.profile_image[0]);
 
       const res = await axios.put(`${backend_url}/employee/${emp._id}`, data, {
         headers: {
@@ -157,6 +161,7 @@ function EmployeeRow({ emp, onDelete, onSave, token }) {
         ) : (
           "No file"
         )}
+        <br/>[{emp.salary_slip}]
       </td>
 {/* Profile image */}
       <td>
@@ -176,13 +181,14 @@ function EmployeeRow({ emp, onDelete, onSave, token }) {
         {editMode && watch("profile_image")?.length > 0 && (
           <img src={URL.createObjectURL(watch("profile_image")[0])} alt="Preview" width="80" height="80" />
         )}
+         {emp.profile_image}
       </td>
       {/* ACTIONS */}
       <td>
         {editMode ? (
           <>
             <button onClick={handleSubmit(onSubmit)}>Save</button>
-            <button onClick={() => { setEditMode(false); reset(emp); }}>Cancel</button>
+            <button onClick={() => {setEditMode(false); reset({...emp, profile_image: null, salary_slip: null });}}>  Cancel</button>
           </>
         ) : (
           <>
@@ -190,6 +196,8 @@ function EmployeeRow({ emp, onDelete, onSave, token }) {
             <button onClick={() => onDelete(emp._id)}>Delete</button>
           </>
         )}
+        <br />
+       
       </td>
     </tr>
   );
