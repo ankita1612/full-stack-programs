@@ -4,7 +4,8 @@ import { UserContext } from "../context/UserContext";
 
 export default function Header() {
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user,totalEmployees } = useContext(UserContext);
+  
 
 
   // 🔹 Load user info from localStorage (set after login)
@@ -36,7 +37,7 @@ export default function Header() {
           (          
           <>
           <NavLink to="/properties" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>Property List</NavLink>
-          <NavLink to="/employees" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>Employee List</NavLink>
+          <NavLink to="/employees" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>Employee List [{totalEmployees}]</NavLink>
         </>)}
 
         {/* 🔸 User Info */}

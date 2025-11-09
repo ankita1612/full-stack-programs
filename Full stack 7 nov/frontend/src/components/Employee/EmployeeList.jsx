@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import EmployeeRow from "./EmployeeRow";
@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { IoMdInformationCircle } from "react-icons/io";
+import { UserContext } from "../../context/UserContext"; // adjust path
 
 // ✅ Yup validation schema
 const employeeSchema = yup.object({
@@ -40,6 +41,7 @@ const employeeSchema = yup.object({
 export default function EmployeeList() {
   const backend_url = import.meta.env.VITE_API_URL;
   const token = localStorage.getItem("token");
+  const { totalEmployees, setTotalEmployees } = useContext(UserContext);
 
   const navigate = useNavigate();
   const [employees, setEmployees] = useState([]);
@@ -79,6 +81,7 @@ export default function EmployeeList() {
       });
       if (res.data.success) {
         setEmployees(res.data.data);
+        setTotalEmployees(res.data.pagination.total)
         setTotalPages(res.data.pagination.totalPages);
       }
     } catch (err) {

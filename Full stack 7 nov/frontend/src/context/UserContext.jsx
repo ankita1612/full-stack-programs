@@ -5,6 +5,7 @@ export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [totalEmployees, setTotalEmployees] = useState(0); // add this
 
   // 🔄 Load user from localStorage on refresh
   useEffect(() => {   
@@ -13,7 +14,7 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, totalEmployees, setTotalEmployees  }}>
       {children}
     </UserContext.Provider>
   );
