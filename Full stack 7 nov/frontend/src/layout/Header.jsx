@@ -39,7 +39,14 @@ export default function Header() {
           <NavLink to="/properties" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>Property List</NavLink>
           <NavLink to="/employees" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>Employee List [{totalEmployees}]</NavLink>
         </>)}
-
+        <NavLink to="/strictMode" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>Strict Mode</NavLink>
+        <NavLink to="/hookEg" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>React.memo,useCallback</NavLink>
+        <NavLink to="/useMemoEg" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>UseMemo</NavLink>
+        <NavLink to="/eg1" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>Eg1</NavLink>
+        <NavLink to="/eg2" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>Eg2</NavLink>
+        <NavLink to="/eg3/add" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>Eg3</NavLink>
+        
+        
         {/* 🔸 User Info */}
         <div>
           {user ? (

@@ -4,6 +4,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { DevTool } from "@hookform/devtools";
 
 const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}$/;
 
@@ -21,10 +22,33 @@ const registerSchema = yup.object().shape({
 export default function Register() {  
   const navigate = useNavigate();
   const [error, setError] = useState("");  
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    resolver: yupResolver(registerSchema)
+  const { register, handleSubmit, control , getValues, setValue, reset, trigger, formState: { errors,isSubmitting, isSubmitted, isSubmitSuccessful, submitCount, touchedFields, dirtyFields, isDirty,isValid } } = useForm({
+    resolver: yupResolver(registerSchema),
+    defaultValues:{
+      name:"ankita 12345"
+    }
   });
 
+  console.log({isSubmitting, isSubmitted, isSubmitSuccessful, submitCount})
+  console.log({touchedFields, dirtyFields, isDirty,isValid});
+ //without page rerender it give me values
+  const hangelGetValues = ()=>{
+        const formValue = getValues(["name","email","address.city","address.pincode"]);
+        console.log('formValue',formValue)
+  }
+  //without page rerender it set me values
+  const hangelSetValues = ()=>{
+        setValue("name","")// setValue("name","ankita")
+        setValue("email","",
+        {
+            shouldValidate:true,
+            shouldDirty:true,
+            shouldTouch:true
+        })
+  }
+  const handleReset = ()=>{
+        reset();
+    }
   const onSubmit = async (data) => {
     try {
       const res = await axios.post(import.meta.env.VITE_API_URL+'/auth/register', data);      
@@ -39,6 +63,7 @@ export default function Register() {
   };
 
   return (
+    <>
     <form onSubmit={handleSubmit(onSubmit)} style={{ maxWidth: 400, margin: 'auto' }}>
       <h2>Register</h2>
       {error && (<div className="error-message">    {error}  </div>)}
@@ -63,7 +88,13 @@ export default function Register() {
         <input type="password" {...register('confirmpassword')} />
         <p style={{ color: 'red' }}>{errors.confirmpassword?.message}</p>
       </div>      
-      <button type="submit">Register</button>
+      <button type="submit" disabled={!isDirty || !isValid} >Register</button>{isDirty}=={isValid }
+      <button type="button" onClick={hangelGetValues}>GetValues</button>
+      <button type="button" onClick={hangelSetValues}>SetValues</button>
+      <button type="button" onClick={handleReset}>Reset</button>
     </form>
+    {/* Hook Form DevTool */}
+      <DevTool control={control} />
+      </>
   );
 }

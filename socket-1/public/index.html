@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Node Chat App</title>
+    <style>
+        body { font-family: Arial; background: #f0f0f0; }
+        #chat { height: 300px; overflow-y: scroll; padding: 10px; background: white; border-radius: 8px; }
+        input { width: 80%; padding: 10px; }
+        button { padding: 10px; }
+    </style>
+</head>
+<body>
+
+<h2>💬 Node.js Chat Application</h2>
+
+<div id="chat"></div>
+<br>
+<input id="msg" placeholder="Type a message..." />
+<button onclick="sendMessage()">Send</button>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+    const chat = document.getElementById('chat');
+
+    socket.on('message', (msg) => {
+        const div = document.createElement('div');
+        div.textContent = msg;
+        chat.appendChild(div);
+        chat.scrollTop = chat.scrollHeight;
+    });
+
+    function sendMessage() {
+        const msg = document.getElementById('msg').value;
+        if (msg.trim() !== "") {
+            socket.emit('chatMessage', msg);
+            document.getElementById('msg').value = "";
+        }
+    }
+</script>
+
+</body>
+</html>

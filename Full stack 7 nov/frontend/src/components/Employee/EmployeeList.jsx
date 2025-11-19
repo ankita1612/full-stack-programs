@@ -38,6 +38,16 @@ const employeeSchema = yup.object({
   description: yup.string().required("Description is required"),
 });
 
+//  salary: yup
+//     .number()
+//     .typeError("Salary must be a number")
+//     .when("emp_type", {
+//       is: "employee",
+//       then: (schema) =>
+//         schema.required("Salary is required when type is employee"),
+//       otherwise: (schema) => schema.notRequired(),
+//     }),
+// });
 export default function EmployeeList() {
   const backend_url = import.meta.env.VITE_API_URL;
   const token = localStorage.getItem("token");
@@ -72,6 +82,14 @@ export default function EmployeeList() {
     return () => clearTimeout(timer);
   }, [search, limit, page, sortField, sortOrder]);
 
+ useEffect(() => {
+  const subscription = watch((value, { name, type }) => {
+    console.log("Changed field:", name);
+    console.log("New form values:", value);
+  });
+
+  return () => subscription.unsubscribe();
+}, [watch]);
   // 🧠 Fetch employees
   const fetchEmployees = async () => {
     try {
@@ -200,7 +218,7 @@ export default function EmployeeList() {
           <div>
             <label>Name:</label>
             <input type="text" {...register("name")} />
-            {errors.name && <p className="error-message">{errors.name.message}</p>}
+            {errors.name && <p className="error-message">{errors.name.message}</p>}            
           </div>
 
           <div>
@@ -253,7 +271,11 @@ export default function EmployeeList() {
               <p className="error-message">{errors.description.message}</p>
             )}
           </div>
-
+          <div>
+            {/* Single watch :{watch("name")}<br></br>
+            Multiple watch :{watch(["name","email","salary"])}<br></br>
+            Watch as Obj :{JSON.stringify(watch())} */}
+          </div>
           <button type="submit">Save Employee</button>
         </form>
       )}

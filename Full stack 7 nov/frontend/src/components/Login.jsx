@@ -29,7 +29,14 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit, formState: { errors } } = useForm({
-    resolver: yupResolver(loginSchema)
+    resolver: yupResolver(loginSchema),
+    defaultValues: async ()=>{
+        const data =await axios.get("https://dummyjson.com/user/1");
+        console.log(data.data.email)
+        return {
+          email: data.data.email
+        }
+     }
   }); 
 
   const [fade, setFade] = useState(false);

@@ -8,8 +8,12 @@ const Register = lazy(() => import("./components/Register"));
 const PropertyList = lazy(() => import("./components/PropertyList"));
 const EmployeeList = lazy(() => import("./components/Employee/EmployeeList"));
 const Home = lazy(() => import("./components/Home"));
-
-
+const StrictMode = lazy(() => import("./components/StrictMode"));
+const HookEg = lazy(() => import("./components/HookEg"));
+const UseMemoEg = lazy(() => import("./components/UseMemoEg"));
+const Eg1 = lazy(() => import("./components/Eg1"));
+const Eg2 = lazy(() => import("./components/Eg2"));
+const Eg3 = lazy(() => import("./components/Eg3"));
 function App() {
   return (
     <UserProvider>
@@ -24,6 +28,12 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/properties" element={<PropertyList />} />
               <Route path="/employees" element={<EmployeeList />} />
+              <Route path="/strictMode" element={<StrictMode />} />
+              <Route path="/hookEg" element={<HookEg />} />
+              <Route path="/useMemoEg" element={<UseMemoEg />} />
+              <Route path="/eg1" element={<Eg1 />} />
+              <Route path="/eg2" element={<Eg2 />} />
+              <Route path="/eg3/:action"   element={<Eg3 />} />    
               <Route path="*" element={<h2>Page Not Found</h2>} />
             </Routes>
           </main>
