@@ -1,6 +1,8 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
+const auth = require('../middleware/auth.middleware');
+
 const {
   addEmployee,
   updateEmployee,
@@ -18,7 +20,7 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname)),
 });
 const upload = multer({ storage });
-
+router.use(auth) // it will apply routet to
 // Routes
 router.post("/", upload.fields([
   { name: "profile_image", maxCount: 1 },

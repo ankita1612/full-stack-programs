@@ -9,6 +9,7 @@ const path = require('path');
 const authRoutes = require('./routes/auth.routes');
 const empRoutes = require('./routes/emp.routes');
 const propertyRoutes = require('./routes/property.routes');
+const commonRoutes = require('./routes/common.routes');
 const { errorHandler, notFound } = require('./middleware/error.middleware');
 
 const app = express();
@@ -44,6 +45,8 @@ app.use('/uploads', (req, res, next) => {
 app.use('/auth', authRoutes);
 app.use('/employee', empRoutes);
 app.use('/property', propertyRoutes);
+app.use('/file_upload', commonRoutes);
+
 
 /* 🧩 --- Health Check --- */
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
