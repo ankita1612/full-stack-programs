@@ -5,30 +5,56 @@ module.exports.employeeList= async (req,res,next) =>{
     try{
          const id =req.params.id;
          console.log(req.query.search)
-         const {search, sort} = req.query
+         const {search, status, sort, sortby, page = 1, limit = 10} = req.query
          let emp_data;
          if(id)
          {
             emp_data = await emp.findById(id);          
             emp_data = emp_data.toObject();
             emp_data.extra="this is deleted user"
+            return  res.json({success: true,  data: emp_data});          
          }
          else
-         {
-          let condiion_arr=[]
-            if(id)
-              condiion_arr.push({"_id":id}) 
-            else if(search)
-              condiion_arr.push({"name":search}) 
-            
-            let query = condition_arr.length > 0 ? { $and: condition_arr } : {};
-            emp_data =await emp.find(query) 
-         }
-         
+         {             
+            let query = {};
 
-          res.json({success1: true,"data":{search,sort}}) 
-         
-        res.json({success2: true,"data":emp_data})
+            // Filter by status
+            if (status) {
+              query.status = status;
+            }
+
+            // Search by name OR email
+            if (search) {
+              query.$or = [
+                { name:  { $regex: search, $options: "i" } },
+                { email: { $regex: search, $options: "i" } }
+              ];
+            }
+
+            // Sorting Logic
+            let sortObj = {};
+            if (sortby && sort) {
+              sortObj[sortby] = sort === "asc" ? 1 : -1;
+            }
+
+            // Pagination logic
+            const pageNum  = parseInt(page);
+            const limitNum = parseInt(limit);
+            const skipVal  = (pageNum - 1) * limitNum;
+
+            // Get total count
+            const totalRecords = await emp.countDocuments(query);
+
+            // Fetch paginated data
+            //const emp_data = await emp.find(query).sort(sortObj).skip(skipVal).limit(limitNum);
+
+            const queryBuilder = emp.find(query).sort(sortObj).skip(skipVal).limit(limitNum);
+            console.log("Generated Query:", queryBuilder.getQuery());
+            console.log("Sorting:", queryBuilder.getOptions());
+            const emp_data = await queryBuilder;
+            
+          return  res.json({success: true, page: pageNum, limit: limitNum, totalRecords,totalPages: Math.ceil(totalRecords / limitNum), data: emp_data});          
+         }
     }
     catch(e)
     {
@@ -65,4 +91,55 @@ module.exports.employeeAdd = async(req,res,next) =>{
         next(e)
     }
 }
- 
+module.exports.employeeEdit = async(req,res,next) =>{
+  try{
+      const result = validationResult(req);
+      const id= req.params.id
+      const data = req.body
+     // return res.send({ errors:id,data:data});
+      if (!result.isEmpty()) {
+         return res.send({ errors: result.array() });
+      }
+      let query = {};
+      query = {"_id":{$ne:id},email:data.email}
+       
+      const is_email_exist = await emp.countDocuments(query)
+      if(is_email_exist){
+        return res.status(400).send({ errors:"data already exist"});
+      }
+      
+      const resullt=await emp.findByIdAndUpdate(id,{$set:{
+        "name" :data.name,
+        "salary":data.salary,
+        "email":data.email,
+        "status":data.status,
+        "desc":data.desc??""
+      }})   
+
+      return res.status(200).send({success: true, errors:resullt});
+  }
+  catch(e)
+  {
+    next(e)
+  }
+} 
+
+module.exports.employeeDelete = async(req, res, next) =>{
+  try{
+    const id = req.params.id
+    const emp_data=await emp.findById(id)
+    
+    if(emp_data)
+    {
+        await emp_data.deleteOne();
+    }
+    
+    return res.send({"message": id + " deleted"})
+
+  }
+  catch(e)
+  {
+    next(e)
+  }
+
+}
