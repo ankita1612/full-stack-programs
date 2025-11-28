@@ -67,13 +67,13 @@ module.exports.employeeAdd = async(req,res,next) =>{
     
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return  res.status(400).json({"success":false,"message":errors.array(),"data":[]})
+        return  res.status(200).json({"success":false,"message":errors.array(),"data":[]})
       }
       const data = req.body
       let emp_data =await emp.findOne({"email":data.email})
       if(emp_data)
       {        
-        res.status(400).json({"success":false,"message":"already exist","data":[]})
+        res.status(200).json({"success":false,"message":"email already exist","data":[]})
       }
 
       emp_data = await emp.create({
@@ -84,7 +84,7 @@ module.exports.employeeAdd = async(req,res,next) =>{
         "desc":(data.desc??'')
        })
       emp_data = emp_data.toObject()
-     res.status(400).json({"success":false,"message":"OK","data":{res:emp_data}})
+     res.status(200).json({"success":true,"message":"Employee added successfully","data":{res:emp_data}})
     }
     catch(e)
     {
@@ -96,16 +96,16 @@ module.exports.employeeEdit = async(req,res,next) =>{
       const result = validationResult(req);
       const id= req.params.id
       const data = req.body
-     // return res.send({ errors:id,data:data});
+     // return res.send({ message:id,data:data});
       if (!result.isEmpty()) {
-         return res.send({ errors: result.array() });
+         return res.status(200).send({ success: false,message: result.array() });
       }
       let query = {};
       query = {"_id":{$ne:id},email:data.email}
        
       const is_email_exist = await emp.countDocuments(query)
       if(is_email_exist){
-        return res.status(400).send({ errors:"data already exist"});
+        return res.status(200).send({success: false, message:"data already exist"});
       }
       
       const resullt=await emp.findByIdAndUpdate(id,{$set:{
@@ -116,7 +116,7 @@ module.exports.employeeEdit = async(req,res,next) =>{
         "desc":data.desc??""
       }})   
 
-      return res.status(200).send({success: true, errors:resullt});
+      return res.status(200).send({success: true, data:resullt,message:"Record updated"});
   }
   catch(e)
   {
@@ -132,10 +132,8 @@ module.exports.employeeDelete = async(req, res, next) =>{
     if(emp_data)
     {
         await emp_data.deleteOne();
-    }
-    
-    return res.send({"message": id + " deleted"})
-
+    }    
+    return res.status(200).send({success: true, data:[],message:"Record deleted successfully"});
   }
   catch(e)
   {

@@ -10,13 +10,13 @@ module.exports.registration = async(req,res,next)=>{
         const data = req.body;
         const result = validationResult(req);
          if (!result.isEmpty()) {        
-            return res.status(400).json({'success':false,'errors':result.array() })
+            return res.status(200).json({'success':false,'errors':result.array() })
         }                
         
         user_data=await user.findOne({"email":data.email});
 
         if(user_data){
-            return res.status(400).json({'success':false,'errors':"User already exist" })
+            return res.status(200).json({'success':false,'errors':"User already exist" })
         }
         
         const new_password=await bcrypt.hash(data.password, 10);
@@ -56,7 +56,7 @@ module.exports.login =  async(req,res,next) =>{
         if(!result){
             return res.status(400).json({'success':false,'errors':"Invalid password","data":{} })
         }        
-        const jwt_key =jwt.sign({"id":user_data._id},process.env.SECRET_KEY,{ expiresIn: "1h" } );
+        const jwt_key =jwt.sign({"id":user_data._id},process.env.SECRET_KEY,{ expiresIn: "10h" } );
         user_data= user_data.toObject()
         user_data.token=jwt_key
         user_data.name="My name :"+user_data.name         
