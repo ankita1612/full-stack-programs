@@ -6,6 +6,7 @@ import {UserContext} from '../../hooks/UserContext'
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { Button, Table } from "react-bootstrap";
 
 const schema = yup.object().shape({
   name: yup.string().min(8).max(32).required(),
@@ -27,7 +28,13 @@ function EmployeeList() {
     const [limit, setLimit] = useState(5)
     const [totalRecord, setTotalRecord] = useState()
     const [totalPages, setTotalPages] = useState()
+    const [search, setSearch]  = useState("")
+    const [debounce, setDebounce]  = useState(false)
    
+   
+    
+
+    
     const onSubmitHandler = async(payload) => {
       try{       
         const token =localStorage.getItem("token")
@@ -89,19 +96,30 @@ function EmployeeList() {
         console.log(e.error)
       }
     }   
-    useEffect(()=>{                         
-      const timer = setTimeout(() => fetch(), 1000); 
-      return () => clearTimeout(timer);
-    },[])
+   
+    useEffect(()=>{
+      const timeid=setTimeout(() => {
+          if (search.trim() !== "") {
+            fetch(); // your API call
+          }}, 5000);
+      return (()=>{     clearTimeout(timeid)     })
+    },[search])
+
     
+
   const showMessage = (msg,msg_type) =>{    
     setErrorMsg(msg)
     setMsgType(msg_type)
     fetch()
   }
   return (
-    <>
-    <div>EmployeeList</div>
+    <div className="container mt-4">
+     <h2 className="mb-3">Employee List</h2>
+     <div>
+
+         <input placeholder="seacrh" value={search} onChange={(e)=>setSearch(e.target.value)}  />
+        <button>Search</button>
+     </div>
     <div className={msgType=='error'?'error-msg':'success-msg'} style={{ whiteSpace: "pre-line", color: "red" }}>[{Object.keys(errors).length}]{Object.keys(errors).length === 0 ? errorMsg:""}</div>
     <button onClick={()=>setShowAddForm(true)}> Add Employee</button>
     { showAddForm && (
@@ -128,28 +146,29 @@ function EmployeeList() {
         </form>
       </div>)
     }
-
-    <table border="1" width="100px">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Salary</th>        
-          <th>Email</th>
-          <th>Status</th>   
-          <th>Desc</th>        
-          <th>Edit</th>        
-          <th>Delete</th>        
-        </tr>      
-     </thead>    
-     <tbody>
-        {data.map((d) => (
-            <EmployeeRow key={d._id} data={d} showMessage={showMessage} />
-        ))}
-      </tbody>        
-    </table>
+    <div className="table-responsive-xl">
+      <table  className="table table-striped table-bordered table-hover" style={{width:'100%'}} >
+        <thead className="thead-light">
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Salary</th>        
+            <th>Email</th>
+            <th>Status</th>   
+            <th>Desc</th>        
+            <th>Edit</th>        
+            <th>Delete</th>        
+          </tr>      
+      </thead>    
+      <tbody>
+          {data.map((d) => (
+              <EmployeeRow key={d._id} data={d} showMessage={showMessage} />
+          ))}
+        </tbody>        
+      </table>
+    </div>
   
-    </>
+    </div>
   )
 }
 

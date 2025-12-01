@@ -1,77 +1,145 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
 import * as yup from "yup";
-import axios from 'axios';
-import { useNavigate } from "react-router-dom";
 
-const schema = yup.object().shape({
-  name: yup.string().required("Please enter name"),
-  email: yup.string().email().required("Please enter email"),
-  password: yup.string().min(8).max(32).required("Please enter password"),
-  confirm_password: yup.string().min(8).max(32).required("Please enter confirm password").oneOf([yup.ref('password'), null], 'Passwords must match')
+const registerSchema = yup.object().shape({
+  name: yup
+    .string()
+    .required("Name is required"),
 
+  email: yup
+    .string()
+    .email("Invalid email format")
+    .required("Email is required"),
+
+  password: yup
+    .string()
+    .min(6, "Password must be minimum 6 characters")
+    .required("Password is required"),
+
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match")
+    .required("Confirm Password is required"),
 });
-
-const App = () => {
-  console.log("render")
-    const navigate = useNavigate()
-  const { register, handleSubmit, formState: { errors }, reset } = useForm({
-    resolver: yupResolver(schema),
+const RegistrationForm = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(registerSchema),
   });
-  const [msg,setMsg]=useState('')
-  const onSubmitHandler = async (payload) => {
-    
-        const API_BASE_URL= "http://localhost:3000/"
-        try{       
-            const response = await axios.post(API_BASE_URL+'auth/registration', payload)            
-            if(response.status === 200){
-                if(response.data.success==false)
-                {
-                    setMsg(response.data.errors)
-                    console.log(333)
-                }
-                else{
-                    setMsg("Registration successful. Redirecting to home page..")                 
-                    navigate('/Login')                    
-                }                
-            } else{
-                console.log("else")
-        
-            }            
-            console.log(222)
-        }
-        catch(e) 
-        {
-                console.log(e);
-        }
 
-        // reset();
-    };
-  return (
-    <form onSubmit={handleSubmit(onSubmitHandler)}>
-      <h2>Lets sign you in.</h2>
-      <br />
-        <div className="error-msg">{msg}</div>
-      Name : <input {...register("name")} placeholder="name" type="text"  />
-      <div className="error-msg">{errors.name?.message}</div>
-      <br />
+  const [serverMsg, setServerMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
-      Email : <input {...register("email")} placeholder="email" type="email"  />
-      <div className="error-msg">{errors.email?.message}</div>
-      <br />
-      
-      Passwod : <input {...register("password")} placeholder="password" type="password" />
-      <div className="error-msg">{errors.password?.message}</div>
-      <br />
+  const onSubmit = async (data) => {
+    try {
+      const res = await axios.post("http://localhost:5000/register", data);
+      setServerMsg(res.data.message);
+      setErrorMsg("");
+    } catch (err) {
+      setErrorMsg(err.response?.data?.message || "Server Error");
+      setServerMsg("");
+    }
+  };
 
-      Confirm Passwod : <input {...register("confirm_password")} placeholder="confirm_password" type="password" />
-      <div className="error-msg">{errors.confirm_password?.message}</div>
-      <br />
+  return (<>{/* HEADER */}
+      <header className="bg-primary text-white p-3">
+        <h2 className="text-center">My Company</h2>
+      </header>
 
-      <button type="submit">Sign in</button>
-    </form>
-  );
+      {/* MAIN CONTENT */}
+      <div className="container mt-4">
+
+        {/* PAGE TITLE + ADD BUTTON */}
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <h3>Employee List</h3>
+          </div>
+          <div className="col-md-6 text-end">
+            <button className="btn btn-success">+ Add Employee</button>
+          </div>
+        </div>
+
+        {/* SEARCH BAR */}
+        <div className="row mb-3">
+          <div className="col-md-4">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search employee"
+            />
+          </div>
+          <div className="col-md-2">
+            <button className="btn btn-primary w-100">Search</button>
+          </div>
+        </div>
+
+        {/* LISTING TABLE */}
+        <div className="row">
+          <div className="col-12">
+            <table className="table table-bordered table-striped">
+              <thead className="table-dark">
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th width="150">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Ankita</td>
+                  <td>ankita@example.com</td>
+                  <td>Developer</td>
+                  <td>
+                    <button className="btn btn-sm btn-warning me-2">Edit</button>
+                    <button className="btn btn-sm btn-danger">Delete</button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>2</td>
+                  <td>Krisha</td>
+                  <td>krisha@example.com</td>
+                  <td>Designer</td>
+                  <td>
+                    <button className="btn btn-sm btn-warning me-2">Edit</button>
+                    <button className="btn btn-sm btn-danger">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* PAGINATION */}
+        <div className="row">
+          <div className="col-md-12">
+            <nav>
+              <ul className="pagination justify-content-center">
+                <li className="page-item"><a className="page-link" href="#">Previous</a></li>
+                <li className="page-item"><a className="page-link" href="#">1</a></li>
+                <li className="page-item"><a className="page-link" href="#">2</a></li>
+                <li className="page-item"><a className="page-link" href="#">3</a></li>
+                <li className="page-item"><a className="page-link" href="#">Next</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+      {/* FOOTER */}
+      <footer className="bg-light text-center p-3 mt-4">
+        © 2025 My Company. All Rights Reserved.
+      </footer>
+    </>);
 };
 
-export default App;
+export default RegistrationForm;
