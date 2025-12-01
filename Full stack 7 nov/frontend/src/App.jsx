@@ -14,6 +14,9 @@ const UseMemoEg = lazy(() => import("./components/UseMemoEg"));
 const Eg1 = lazy(() => import("./components/Eg1"));
 const Eg2 = lazy(() => import("./components/Eg2"));
 const Eg3 = lazy(() => import("./components/Eg3"));
+const UseLayoutDemo = lazy(() => import("./components/UseLayoutDemo.jsx"));
+const UseLayoutDemo1 = lazy(() => import("./components/UseLayoutDemo1.jsx"));
+
 function App() {
   return (
     <UserProvider>
@@ -34,6 +37,9 @@ function App() {
               <Route path="/eg1" element={<Eg1 />} />
               <Route path="/eg2" element={<Eg2 />} />
               <Route path="/eg3/:action"   element={<Eg3 />} />    
+              <Route path="/UseLayoutDemo"   element={<UseLayoutDemo />} />    
+              <Route path="/UseLayoutDemo1"   element={<UseLayoutDemo1 />} />    
+              
               <Route path="*" element={<h2>Page Not Found</h2>} />
             </Routes>
           </main>

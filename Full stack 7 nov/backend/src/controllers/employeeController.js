@@ -57,13 +57,13 @@ exports.addEmployee = async (req, res) => {
     }
 
     if (fileErrors.length > 0) {
-      return res.status(400).json({ success: false, errors: fileErrors });
+      return res.status(200).json({ success: false, errors: fileErrors });
     }
 
     // ✅ Check email uniqueness before creating
     const existing = await Employee.findOne({ email });
     if (existing) {
-      return res.status(400).json({ 
+      return res.status(200).json({ 
         success: false, 
         errors: [{ field: "email", message: "Email already exists" }] 
       });

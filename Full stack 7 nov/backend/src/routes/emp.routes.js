@@ -3,6 +3,10 @@ const multer = require("multer");
 const path = require("path");
 const auth = require('../middleware/auth.middleware');
 
+const PureExample= React.memo(({a,b}) =>{
+
+    return (a+b)
+})
 const {
   addEmployee,
   updateEmployee,
@@ -20,7 +24,7 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname)),
 });
 const upload = multer({ storage });
-router.use(auth) // it will apply routet to
+//router.use(auth) // it will apply routet to
 // Routes
 router.post("/", upload.fields([
   { name: "profile_image", maxCount: 1 },

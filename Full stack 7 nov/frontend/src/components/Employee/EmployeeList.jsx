@@ -51,6 +51,7 @@ const employeeSchema = yup.object({
 export default function EmployeeList() {
   const backend_url = import.meta.env.VITE_API_URL;
   const token = localStorage.getItem("token");
+  console.log(token)
   const { totalEmployees, setTotalEmployees } = useContext(UserContext);
 
   const navigate = useNavigate();
