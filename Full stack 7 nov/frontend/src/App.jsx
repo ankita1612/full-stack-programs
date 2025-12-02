@@ -16,7 +16,13 @@ const Eg2 = lazy(() => import("./components/Eg2"));
 const Eg3 = lazy(() => import("./components/Eg3"));
 const UseLayoutDemo = lazy(() => import("./components/UseLayoutDemo.jsx"));
 const UseLayoutDemo1 = lazy(() => import("./components/UseLayoutDemo1.jsx"));
-
+const ReactWindow  = lazy(() => import("./components/ReactWindow.jsx"));
+const UseQuery  = lazy(() => import("./components/UseQuery.jsx"));
+const UseDeferredValue  = lazy(() => import("./components/UseDeferredValue.jsx"));
+const  UseTransition = lazy(() => import("./components/UseTransition.jsx"));
+const  UseFormState = lazy(() => import("./components/UseFormState.jsx"));
+const  UseForm = lazy(() => import("./components/UseForm.jsx"));
+const  FormRerender = lazy(() => import("./components/FormRerender.jsx"));
 function App() {
   return (
     <UserProvider>
@@ -39,7 +45,13 @@ function App() {
               <Route path="/eg3/:action"   element={<Eg3 />} />    
               <Route path="/UseLayoutDemo"   element={<UseLayoutDemo />} />    
               <Route path="/UseLayoutDemo1"   element={<UseLayoutDemo1 />} />    
-              
+              <Route path="/ReactWindow"   element={<ReactWindow />} />
+              <Route path="/UseQuery"   element={<UseQuery />} />
+              <Route path="/UseDeferredValue"   element={<UseDeferredValue />} />
+              <Route path="/UseTransition"   element={<UseTransition />} />
+              <Route path="/UseFormState"   element={<UseFormState />} />
+              <Route path="/UseForm"   element={<UseForm />} />
+              <Route path="/FormRerender"   element={<FormRerender />} />              
               <Route path="*" element={<h2>Page Not Found</h2>} />
             </Routes>
           </main>

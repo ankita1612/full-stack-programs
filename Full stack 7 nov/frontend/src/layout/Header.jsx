@@ -45,7 +45,12 @@ export default function Header() {
         <NavLink to="/eg1" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>Eg1</NavLink>
         <NavLink to="/eg2" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>Eg2</NavLink>
         <NavLink to="/eg3/add" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>Eg3</NavLink>
-        
+        <NavLink to="/UseQuery" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>UseQuery</NavLink>
+        <NavLink to="/UseDeferredValue" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>UseDeferredValue</NavLink>
+        <NavLink to="/UseTransition" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>UseTransition</NavLink>
+        <NavLink to="/UseFormState" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>UseFormState</NavLink>
+        <NavLink to="/UseForm" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>UseForm</NavLink>
+        <NavLink to="/FormRerender" className={({ isActive }) => (isActive ? "active" : "")} style={{ marginRight: '1rem' }}>FormRerender</NavLink>
         
         {/* 🔸 User Info */}
         <div>

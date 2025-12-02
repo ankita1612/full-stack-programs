@@ -6,6 +6,7 @@ function Cart() {
 
     return (
     <div className="p-4 border rounded-md max-h-[70vh] overflow-auto bg-white">
+        {JSON.stringify(cart)}
         <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold">Cart</h2>
             <div className="text-sm">Items: <span className="font-semibold">{totalItems}</span></div>
