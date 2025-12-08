@@ -22,7 +22,7 @@ const employeeSchema = new mongoose.Schema({
   },
   dob: { 
     type: Date, 
-    required: [true, "Date of Birth is required"], 
+    required: [true, "Date of Birth is requiredaaa"], 
     validate: {
       validator: (v) => v < new Date(),
       message: "DOB must be earlier than today"

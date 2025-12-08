@@ -38,7 +38,7 @@ module.exports.registration = async(req,res,next)=>{
 
 module.exports.login =  async(req,res,next) =>{    
     try{
-        const data = req.body;
+        const data = req.bodya;
         const errors = validationResult(req);
          if (!errors.isEmpty()) {       
             const formatted = errors.array().map((err) => ({

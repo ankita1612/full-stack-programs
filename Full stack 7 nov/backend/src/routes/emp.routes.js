@@ -3,10 +3,7 @@ const multer = require("multer");
 const path = require("path");
 const auth = require('../middleware/auth.middleware');
 
-const PureExample= React.memo(({a,b}) =>{
 
-    return (a+b)
-})
 const {
   addEmployee,
   updateEmployee,

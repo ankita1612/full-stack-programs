@@ -1,16 +1,22 @@
 
 import { BrowserRouter ,Routes, Route,Link , NavLink} from "react-router-dom";
 import Registration from './compoenents/Registration'
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import {UserContext} from './hooks/UserContext'
 import Login from './compoenents/Login'
 import Employee from "./compoenents/employee/EmployeeList"; 
 import ProtectedRoute from "./routes/ProtectedRoute"
-
+import BrokenComponent  from "./compoenents/BrokenComponent";
+import ErrorBoundary from "./ErrorBoundary";
+import MyBox from "./compoenents/MyBox";
+import MyHeader from "./compoenents/MyHeader";
 function App() {
     const {users} = useContext(UserContext)
-    
-    return (        
+    const [cntr,setCntr] = useState(0)
+    return (       
+        <>
+        <MyHeader></MyHeader>
+        <div>Hai from start</div>
         <BrowserRouter>
         <nav>
             <ul>
@@ -38,7 +44,16 @@ function App() {
                 <Route path="/employee" element={<Employee />} />
             </Route>
         </Routes>
-        </BrowserRouter>      
+        </BrowserRouter>  
+        {/* <ErrorBoundary>
+            <BrokenComponent />
+            <div>++++++++++++++++++++++++</div>
+      </ErrorBoundary>    */}
+        <div>{cntr}<button onClick={()=>setCntr((p)=>{return p+1})}>+</button></div>
+         <MyBox >
+            <p>This is children props</p>
+        </MyBox>
+        </>  
     );    
 }
 

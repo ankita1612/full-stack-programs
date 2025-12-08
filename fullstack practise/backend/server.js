@@ -13,8 +13,8 @@ app.use(cors())
 app.use(helmet())
 const authRoute =require("./src/route/auth")
 const empRoute = require("./src/route/employee")
-
-
+const morgan = require('morgan'); 
+app.use(morgan('dev'));
 const connectDB = async() =>{
     try{
         await mongoose.connect(process.env.MONGO_URI)
@@ -31,6 +31,10 @@ connectDB()
 
 app.use("/auth",authRoute)
 app.use("/employee",empRoute)
+
+app.use((req, res, next) => {
+  res.status(404).send('Page Not Found');
+});
 
 app.use((err, req, res, next) => {
     res.status(500).json({'sucess':false,'error':err.message || "Internal Server Error",'stack' :err.stack});
