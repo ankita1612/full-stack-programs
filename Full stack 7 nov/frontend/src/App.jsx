@@ -1,4 +1,5 @@
 import React, { Suspense, lazy } from "react";
+import one from './assets/1.svg'
 import { BrowserRouter as Router, Routes, Route, Navigate  } from 'react-router-dom';
 import Header from './layout/Header';
 import Footer from './layout/Footer';
@@ -24,6 +25,16 @@ const  UseFormState = lazy(() => import("./components/UseFormState.jsx"));
 const  UseForm = lazy(() => import("./components/UseForm.jsx"));
 const  FormRerender = lazy(() => import("./components/FormRerender.jsx"));
 function App() {
+
+  var x = 5;
+
+{
+  let x = 100;  // shadows outer x
+  console.log("==========>"+x); // 100
+}
+
+console.log("~~~~~~~~>"+x); // 5
+
   return (
     <UserProvider>
       <Router>

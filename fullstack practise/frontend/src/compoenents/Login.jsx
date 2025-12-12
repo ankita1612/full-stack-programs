@@ -12,6 +12,7 @@ const schema = yup.object().shape({
 });
 
 const Login = () => {
+   localStorage.setItem("data",JSON.stringify({name:"ankita"}))
   const {users , setUsers} = useContext(UserContext)
   const [msgParams] = useSearchParams();
   
