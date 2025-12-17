@@ -98,10 +98,9 @@ function EmployeeList() {
     }   
    
     useEffect(()=>{
-      const timeid=setTimeout(() => {
-          if (search.trim() !== "") {
+      const timeid=setTimeout(() => {          
             fetch(); // your API call
-          }}, 5000);
+          }, 5000);
       return (()=>{     clearTimeout(timeid)     })
     },[search])
 

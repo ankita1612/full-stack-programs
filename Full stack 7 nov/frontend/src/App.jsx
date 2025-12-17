@@ -25,52 +25,57 @@ const  UseFormState = lazy(() => import("./components/UseFormState.jsx"));
 const  UseForm = lazy(() => import("./components/UseForm.jsx"));
 const  FormRerender = lazy(() => import("./components/FormRerender.jsx"));
 function App() {
-
-  var x = 5;
-
-{
-  let x = 100;  // shadows outer x
-  console.log("==========>"+x); // 100
+  console.log("rendering");
+  fetch("https://jsonplaceholder.typicode.com/todos"); // ❌ side effect
+  return <div>Hello</div>;
 }
+// function App() {
 
-console.log("~~~~~~~~>"+x); // 5
+//   var x = 5;
 
-  return (
-    <UserProvider>
-      <Router>
-        <Header />
-        <Suspense fallback={<div>Loading...</div>}>
-          <main style={{ minHeight: '80vh', padding: '1rem' }}>
-            <Routes >
-              <Route path="/" element={<Navigate to="/home" />}/>
-              <Route path="/home" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/properties" element={<PropertyList />} />
-              <Route path="/employees" element={<EmployeeList />} />
-              <Route path="/strictMode" element={<StrictMode />} />
-              <Route path="/hookEg" element={<HookEg />} />
-              <Route path="/useMemoEg" element={<UseMemoEg />} />
-              <Route path="/eg1" element={<Eg1 />} />
-              <Route path="/eg2" element={<Eg2 />} />
-              <Route path="/eg3/:action"   element={<Eg3 />} />    
-              <Route path="/UseLayoutDemo"   element={<UseLayoutDemo />} />    
-              <Route path="/UseLayoutDemo1"   element={<UseLayoutDemo1 />} />    
-              <Route path="/ReactWindow"   element={<ReactWindow />} />
-              <Route path="/UseQuery"   element={<UseQuery />} />
-              <Route path="/UseDeferredValue"   element={<UseDeferredValue />} />
-              <Route path="/UseTransition"   element={<UseTransition />} />
-              <Route path="/UseFormState"   element={<UseFormState />} />
-              <Route path="/UseForm"   element={<UseForm />} />
-              <Route path="/FormRerender"   element={<FormRerender />} />              
-              <Route path="*" element={<h2>Page Not Found</h2>} />
-            </Routes>
-          </main>
-        </Suspense>
-        <Footer />
-      </Router>
-    </UserProvider>
-  );
-}
+// {
+//   let x = 100;  // shadows outer x
+//   console.log("==========>"+x); // 100
+// }
+
+// console.log("~~~~~~~~>"+x); // 5
+
+//   return (
+//     <UserProvider>
+//       <Router>
+//         <Header />
+//         <Suspense fallback={<div>Loading...</div>}>
+//           <main style={{ minHeight: '80vh', padding: '1rem' }}>
+//             <Routes >
+//               <Route path="/" element={<Navigate to="/home" />}/>
+//               <Route path="/home" element={<Home />} />
+//               <Route path="/login" element={<Login />} />
+//               <Route path="/register" element={<Register />} />
+//               <Route path="/properties" element={<PropertyList />} />
+//               <Route path="/employees" element={<EmployeeList />} />
+//               <Route path="/strictMode" element={<StrictMode />} />
+//               <Route path="/hookEg" element={<HookEg />} />
+//               <Route path="/useMemoEg" element={<UseMemoEg />} />
+//               <Route path="/eg1" element={<Eg1 />} />
+//               <Route path="/eg2" element={<Eg2 />} />
+//               <Route path="/eg3/:action"   element={<Eg3 />} />    
+//               <Route path="/UseLayoutDemo"   element={<UseLayoutDemo />} />    
+//               <Route path="/UseLayoutDemo1"   element={<UseLayoutDemo1 />} />    
+//               <Route path="/ReactWindow"   element={<ReactWindow />} />
+//               <Route path="/UseQuery"   element={<UseQuery />} />
+//               <Route path="/UseDeferredValue"   element={<UseDeferredValue />} />
+//               <Route path="/UseTransition"   element={<UseTransition />} />
+//               <Route path="/UseFormState"   element={<UseFormState />} />
+//               <Route path="/UseForm"   element={<UseForm />} />
+//               <Route path="/FormRerender"   element={<FormRerender />} />              
+//               <Route path="*" element={<h2>Page Not Found</h2>} />
+//             </Routes>
+//           </main>
+//         </Suspense>
+//         <Footer />
+//       </Router>
+//     </UserProvider>
+//   );
+// }
 
 export default App;

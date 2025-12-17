@@ -1,52 +1,57 @@
-//400 — Bad Request (Client mistake)
-//500 — Internal Server Error (Your backend issue)
-//201 — Created (Success for new resource)
 require('dotenv').config();
-const express =require("express")
-const helmet =require("helmet")
-const cors =require("cors")
-const mongoose =require("mongoose")
+const express = require("express");
+const helmet = require("helmet");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const path = require("path");
+const morgan = require("morgan");
+const compression =  require("compression");
 
-const app= express()
+const app = express();
+
+// Middlewares
 app.use(express.json());
-app.use(cors())
-app.use(helmet())
-const authRoute =require("./src/route/auth")
+app.use(cors());
+app.use(helmet());
+app.use(morgan("dev"));
+app.use(compression());
+
+// Routes
+const authRoute = require("./src/route/auth");
+const queryTestingRoute = require("./src/route/queryTesting");
 const empRoute = require("./src/route/employee")
-const queryTestingRoute = require("./src/route/queryTesting")
+// Connect MongoDB
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log("MongoDB Connected"))
+    .catch(err => {
+        console.error("MongoDB Error:", err.message);
+        process.exit(1);
+    });
 
-const morgan = require('morgan'); 
-app.use(morgan('dev'));
-const connectDB = async() =>{
-    try{
-        await mongoose.connect(process.env.MONGO_URI)
-        console.log("Connection done")
-    }
-    catch(e)
-    {
-        req.status(500).send({"success":0,"message": e.error} )
-        process.exit(1)
-    }
-}
-app.use((req, res, next) => {
-    console.log(req.url)
-    console.log(req.method)
-  next()
-});
-connectDB()
-const gree1t = require('my-package');
-console.log(gree1t.greet('a'));
-app.use("/auth",authRoute)
+// API Routes
+app.use("/auth", authRoute);
+app.use("/query-testing", queryTestingRoute);
 app.use("/employee",empRoute)
-app.use("/query-testing",queryTestingRoute)
 
-app.use((req, res, next) => {
-  res.status(404).send('Page Not Found');
-});
 
+// Serve React build
+// app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+// // Catch-all for SPA — Express 5 FIX
+// app.get(/.*/, (req, res) => {
+//     res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+// });
+
+// Error Handler
 app.use((err, req, res, next) => {
-    res.status(500).json({'sucess':false,'error':err.message || "Internal Server Error",'stack' :err.stack});
+    res.status(500).json({
+        success: false,
+        error: err.message,
+        stack: err.stack
+    });
 });
-app.listen(process.env.PORT,()=>{
-    console.log("working fine" +process.env.PORT)
-})
+
+// Start Server
+app.listen(process.env.PORT, () => {
+    console.log(`Server running on port ${process.env.PORT}`);
+});

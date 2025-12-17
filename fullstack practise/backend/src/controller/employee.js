@@ -48,7 +48,7 @@ module.exports.employeeList= async (req,res,next) =>{
             // Fetch paginated data
             //const emp_data = await emp.find(query).sort(sortObj).skip(skipVal).limit(limitNum);
 
-            const queryBuilder = emp.find(query).sort(sortObj).skip(skipVal).limit(limitNum);
+            const queryBuilder = emp.find(query);
             console.log("Generated Query:", queryBuilder.getQuery());
             console.log("Sorting:", queryBuilder.getOptions());
             const emp_data = await queryBuilder;

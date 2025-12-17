@@ -31,7 +31,7 @@ function App() {
         <div>Hai from start</div>
         <div>{msg}</div>
         <div>{msg1}</div>
-       [[<div><img src={x} onerror={y}></img></div>]]
+       {/* [[<div><img src={x} onerror={y}></img></div>]] */}
 
         {/* --<div dangerouslySetInnerHTML={{ __html: userInput }} />-- */}
         --<div dangerouslySetInnerHTML={{ __html: Inputdata }} />--

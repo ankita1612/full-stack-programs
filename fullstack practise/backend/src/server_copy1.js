@@ -1,0 +1,52 @@
+//400 — Bad Request (Client mistake)
+//500 — Internal Server Error (Your backend issue)
+//201 — Created (Success for new resource)
+require('dotenv').config();
+const express =require("express")
+const helmet =require("helmet")
+const cors =require("cors")
+const mongoose =require("mongoose")
+
+const app= express()
+app.use(express.json());
+app.use(cors())
+app.use(helmet())
+const authRoute =require("./src/route/auth")
+const empRoute = require("./src/route/employee")
+const queryTestingRoute = require("./src/route/queryTesting")
+
+const morgan = require('morgan'); 
+app.use(morgan('dev'));
+const connectDB = async() =>{
+    try{
+        await mongoose.connect(process.env.MONGO_URI)
+        console.log("Connection done")
+    }
+    catch(e)
+    {
+        req.status(500).send({"success":0,"message": e.error} )
+        process.exit(1)
+    }
+}
+app.use((req, res, next) => {
+    console.log(req.url)
+    console.log(req.method)
+  next()
+});
+connectDB()
+const gree1t = require('my-package');
+console.log(gree1t.greet('a'));
+app.use("/auth",authRoute)
+app.use("/employee",empRoute)
+app.use("/query-testing",queryTestingRoute)
+
+app.use((req, res, next) => {
+  res.status(404).send('Page Not Found');
+});
+
+app.use((err, req, res, next) => {
+    res.status(500).json({'sucess':false,'error':err.message || "Internal Server Error",'stack' :err.stack});
+});
+app.listen(process.env.PORT,()=>{
+    console.log("working fine" +process.env.PORT)
+})

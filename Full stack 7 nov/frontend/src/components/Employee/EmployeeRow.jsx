@@ -31,6 +31,8 @@ const employeeSchema = (backend_url, emp, token) => yup.object().shape({
 
 
 function EmployeeRow({ emp, onDelete, onSave, token }) {
+  const [cntr, setCntr] = useState(1)
+  const incr= ()=>{setCntr ((prev)=>prev+1)   }
   console.log("rerender")
   const backend_url = import.meta.env.VITE_API_URL;
   const [editMode, setEditMode] = useState(false);
@@ -71,7 +73,10 @@ function EmployeeRow({ emp, onDelete, onSave, token }) {
   return (
     <tr>
       {/* NAME */}
-      <td>
+      <td>{cntr}<input type="range" value={cntr}  onChange={(e) => setCntr(e.target.value)}/>
+      <button onClick={incr}>+</button>
+
+
         {editMode ? (
           <>
             <input type="text" {...register("name")} />

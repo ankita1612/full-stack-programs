@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
     email: String,    
     password: {
         type: String,
-        select: false
+       // select: false
     }  ,  
     status :String,  
     deletedAt:Date,
