@@ -15,7 +15,18 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(compression());
-
+// console.log("111")
+// console.log(path.extname("/home/user/test.js"))
+// console.log("222")
+// console.log(path.resolve("src", "index.js"))
+// console.log("333")
+// console.log(path.join("dirname", "uploads", "file.txt"))
+// console.log("444")
+// console.log(path.parse("D:\MERN boilerplate\fullstack practise\backend\src\index.js"))
+console.time('Execution  Time');
+setTimeout(()  =>  { 
+console.timeEnd('Execution  Time'); 
+}, 1000); 
 // Routes
 const authRoute = require("./src/route/auth");
 const queryTestingRoute = require("./src/route/queryTesting");
@@ -35,12 +46,12 @@ app.use("/employee",empRoute)
 
 
 // Serve React build
-// app.use(express.static(path.join(__dirname, "../frontend/dist")));
+ app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
 // // Catch-all for SPA — Express 5 FIX
-// app.get(/.*/, (req, res) => {
-//     res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
-// });
+app.get(/.*/, (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+ });
 
 // Error Handler
 app.use((err, req, res, next) => {
