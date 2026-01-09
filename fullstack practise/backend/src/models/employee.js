@@ -7,5 +7,11 @@ const empSchema = new mongoose.Schema({
   desc:String
 
 },{timestamps:true});
+empSchema.virtual('fullName').get(function () {
+  return `${this.fname} ${this.lname}`;
+});
 
+//it add globally
+  //  empSchema.set('toJSON', { virtuals: true });
+  // empSchema.set('toObject', { virtuals: true });
 module.exports = mongoose.model('employee', empSchema);

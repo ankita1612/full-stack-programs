@@ -1,0 +1,17 @@
+https://medium.com/@rachealkuranchie/how-to-build-a-crud-api-with-express-js-and-typescript-21c7c66e5296
+
+
+npx ts-node-dev src/server.ts
+++++++++++++++++++++++++++++++
+in production 
+++++++++++++++++++++
+npx tsc
+node dist/server.js
+
+{
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  }
+}

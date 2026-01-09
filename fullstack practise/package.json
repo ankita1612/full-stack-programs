@@ -12,10 +12,16 @@
 
   },
 
-  "scripts": {    
+  "scripts": {
+
     "test": "erroe",
+
+    "nodemon": "nodemon server",
+
     "start": "node backend/server.js",
-    "build" :"npm install && npm install --prefix frontend && npm run build --prefix frontend"
+
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
+
   },
 
   "keywords": [],
